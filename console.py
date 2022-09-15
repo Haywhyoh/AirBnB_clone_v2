@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 import sys
+import re
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -73,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] is '{' and pline[-1] is'}'\
+                    if pline[0] == '{' and pline[-1] is'}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -115,16 +116,44 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
+        #check if the arg exist - else "error_message"
         if not args:
-            print("** class name missing **")
+            print("** class name mssing **")
             return
-        elif args not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
-        print(new_instance.id)
-        storage.save()
+        else:
+            #we split the args with space and return a list(arg_list)
+            arg_list = args.split(" ")
+            #we extract the first parameter as class name
+            class_name = arg_list[0]
+            #checl if class_name exist
+            if class_name not in HBNBCommand.classes:
+                print("** class doesn't exist **")
+            #evalute class name
+            obj = eval("{}()".format(class_name))
+                #for each element in arg_list
+            for i in range(1, len(arg_list)):
+                #the we split the remaining the reamining element in arg_list,  #replace '='
+                param = arg_list[i].replace('=', ' ')
+                param_list = param.split(" ")
+                #assign the frist value from the (param_list) as key
+                key = param_list[0]
+                #assign second element in the (param_list) as value
+                value = param_list[1]
+
+                if not re.search('^".*"$', value):
+                    #if value has ., cast to float
+                    if '.' in value:
+                        value = float(value)
+                    else:
+                        #cast value to int
+                        value = int(value)
+                else:
+                    value = value.replace('"', '')
+                    value = value.replace('_', ' ')
+                #the setattr(of the obj, key, value)
+                setattr(obj, key, value)
+            obj.save()
+            print("{}".format(obj.id))
 
     def help_create(self):
         """ Help information for the create method """
