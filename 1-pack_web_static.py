@@ -8,6 +8,8 @@ folder of the AirBnB Clone repo
 from fabric.api import local
 from datetime import datetime
 import os.path as file_path
+
+
 def do_pack():
     """generates a tgz archive"""
     try:
@@ -15,9 +17,7 @@ def do_pack():
         archive_file = "versions/web_static_{}.tgz".format(time)
         if not file_path.exists("versions"):
             local('mkdir -p versions')
-        #creatd the tgz with tar command
-        #local("tar -cvzf {} webstatic".format(archive_file))
         local("tar -cvzf {} web_static".format(archive_file))
         return archive_file
-    except:
+    except FileExistsError:
         return None
