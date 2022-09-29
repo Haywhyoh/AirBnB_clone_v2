@@ -11,6 +11,7 @@ env.hosts['100.24.210.123', '3.235.24.154']
 
 
 def de_deploy(archive_path):
+    """distributes an archive to the web servers"""
     try:
         path = '/data/web_static/releases/'
         archive_file = archive_path.split('/')[-1]
