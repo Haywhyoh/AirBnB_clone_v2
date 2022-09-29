@@ -18,7 +18,6 @@ def de_deploy(archive_path):
         file_name = archive_file.split('.')[0]
         if not file_path.exists(archive_path):
             return False
-        #upload the archove_path to tmp
         put(archive_path, '/tmp/')
         run("mkdir -p {}{}/".format(path, file_name))
         run("tar -xzf /tmp/{} -C {}{}/".format(archive_file, path, file_name))
@@ -28,5 +27,5 @@ def de_deploy(archive_path):
         run('rm -rf /data/web_static/current')
         run('ln -s {}{}/ /data/web_static/current'.format(path, no_ext))
         return True
-    except:
+    except FileExistsError:
         return False
