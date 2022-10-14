@@ -1,8 +1,10 @@
 #!usr/bin/python3
 """creates a flask application"""
+from flask import Flask
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+
 
 @app.route('/')
 def hello():
@@ -11,7 +13,8 @@ def hello():
 
 @app.route('/hbnb')
 def hbnb():
-    return('HBNB')
+    return ('HBNB')
+
 
 @app.route('/c/<string:text>')
 def c_is_fun(text):
