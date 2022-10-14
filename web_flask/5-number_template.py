@@ -35,7 +35,7 @@ def num(n):
 
 @app.route('/number_template/<int:n>')
 def check_num(n):
-    return render_template('5-numnber.html', n)
+    return render_template('5-numnber.html', n=n)
 
 
 
