@@ -1,5 +1,5 @@
-#!usr/bin/python3
-"""creates a flask application"""
+#!/usr/bin/python3
+'''crates a flask web application'''
 from flask import Flask
 
 app = Flask(__name__)
