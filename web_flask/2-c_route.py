@@ -24,8 +24,7 @@ def display_hbnb():
 @app.route('/c_text/<string:text>', strict_slashes=False)
 def c_text(text):
     """prints C followed by <text> content"""
-    text = text.replace('_', ' ')
-    return "C %s" % text
+    return('C %s' % text.replace("_", " "))
 
 
 if __name__ == "__main__":
